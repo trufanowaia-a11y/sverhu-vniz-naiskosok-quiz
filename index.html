@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Сверху вниз, наискосок! — викторина по рассказу В. Драгунского</title>
+<style>
+:root{--ink:#293447;--muted:#64748b;--paper:#fffdf8;--line:#e6dfd2;--accent:#315b52;--good:#dff3e5;--goodink:#176238;--bad:#fde5e3;--badink:#a52a24;--gold:#f4e6b8}
+*{box-sizing:border-box}body{margin:0;background:#f2eee6;color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Arial,sans-serif}.wrap{max-width:900px;margin:auto;padding:24px 16px 60px}.hero{background:linear-gradient(135deg,#315b52,#203f3a);color:white;padding:30px;border-radius:20px;margin-bottom:20px}.hero h1{margin:0 0 8px;font-size:clamp(27px,5vw,40px)}.hero p{margin:0;color:#e5eee9}.scorebar{position:sticky;top:8px;z-index:5;background:#fffdf8ed;border:1px solid var(--line);backdrop-filter:blur(8px);padding:12px 16px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;margin:16px 0;box-shadow:0 5px 18px #27332612}.scorebar strong{font-size:20px;color:var(--accent)}.section,.question,.result{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px;margin:16px 0}.section h2{margin:0 0 6px;font-size:22px}.sub{color:var(--muted);margin:0 0 16px}.q{padding:16px 0;border-top:1px solid var(--line)}.q:first-of-type{border-top:0}.q h3{font-size:17px;margin:0 0 10px}.opts{display:grid;gap:8px}.opt{display:flex;align-items:flex-start;gap:10px;text-align:left;width:100%;padding:11px 13px;border:1px solid #d8d5cd;border-radius:11px;background:white;color:var(--ink);font:inherit;cursor:pointer}.opt:hover:not(:disabled){border-color:var(--accent);background:#f5f8f5}.opt:disabled{cursor:default;opacity:1}.opt.correct{background:var(--good);border-color:#8ac49c;color:var(--goodink)}.opt.wrong{background:var(--bad);border-color:#e5a19b;color:var(--badink)}.feedback{font-size:14px;margin:8px 2px 0;color:var(--muted);min-height:0}.feedback.good{color:var(--goodink)}.feedback.bad{color:var(--badink)}.tf .opts{grid-template-columns:repeat(2,minmax(0,1fr))}.event{display:grid;grid-template-columns:70px 1fr;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.event input{width:64px;padding:10px;border:1px solid #cfc8bb;border-radius:9px;font:inherit;text-align:center}.event.correct-row{background:#f0faf2}.event.wrong-row{background:#fff1ef}.btn{border:0;border-radius:10px;background:var(--accent);color:white;font:600 15px system-ui;padding:12px 18px;cursor:pointer;margin-top:14px}.btn:disabled{opacity:.55;cursor:default}.pill{display:inline-block;background:#e8efe9;color:var(--accent);padding:4px 10px;border-radius:99px;font-size:13px;font-weight:700}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.cue{background:#f6f1e6;border:1px solid var(--line);border-radius:12px;padding:14px}.cue b{display:block;color:var(--accent);margin-bottom:4px}.result{border:2px solid #b7c9b9}.big{font-size:34px;font-weight:800;color:var(--accent)}.super{background:#fff9e8;border:2px solid #e8d59c}.super h2{color:#785b16}.bonusrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.bonusrow input{width:100px;padding:10px;border:1px solid #c8b77f;border-radius:9px;font:inherit}.small{font-size:13px;color:var(--muted)}
+.score-page{position:relative;overflow:hidden;text-align:center;padding:30px 24px;border:0;border-radius:22px;box-shadow:0 12px 30px #27332616;background:linear-gradient(135deg,#fffdf8 0%,#f4f0e7 48%,#e8eee9 100%)}
+.score-page:before,.score-page:after{content:"✦  ✧  ✦";position:absolute;color:#c49b4a;font-size:24px;letter-spacing:12px;opacity:.65;pointer-events:none}
+.score-page:before{top:12px;left:18px}.score-page:after{bottom:12px;right:18px}
+.score-page h2{font-size:clamp(22px,4vw,30px);margin:0 0 10px;color:#354d48}
+.score-page .medal{width:66px;height:66px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;font-size:32px;background:linear-gradient(145deg,#f8e7b5,#d6b56b);border:4px solid #fff8e8;box-shadow:0 4px 14px #8b713c35}
+.score-page .big{font-size:clamp(42px,8vw,58px);line-height:1.1;margin:12px 0;color:#314f49;text-shadow:0 2px #fff}
+.score-page p{max-width:620px;margin:10px auto;color:#58645f}
+.score-page .score-caption{font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:800;color:#92723b}
+.score-page.main-result{background:linear-gradient(135deg,#fffaf0,#f1ead8 50%,#e7eee8)}
+.score-page.final-result{background:linear-gradient(135deg,#f8f4e9,#e9efe9 48%,#e8edf4)}
+.score-page .score-track{height:12px;max-width:460px;margin:18px auto 0;background:#ffffffb8;border:1px solid #d9d3c4;border-radius:99px;overflow:hidden}
+.score-page .score-fill{height:100%;width:0;background:linear-gradient(90deg,#c49b4a,#6b9483);border-radius:99px;transition:width .35s ease}
+.hidden{display:none}.footer{text-align:center;color:var(--muted);font-size:13px;margin-top:25px}
+@media(max-width:560px){.hero{padding:23px}.section,.question,.result{padding:16px}.event{grid-template-columns:58px 1fr;gap:8px}.event input{width:54px}.scorebar{top:4px}}
+</style></head>
+<body><main class="wrap">
+<header class="hero"><span class="pill">Литературная викторина · 7–9 лет</span><h1>«Сверху вниз, наискосок!»</h1><p>По рассказу Виктора Драгунского</p><p style="margin-top:12px">Вспомни события, подумай о поступках героев и проверь, насколько внимательно ты прочитал рассказ.</p></header>
+<div class="scorebar"><span>Текущий результат</span><strong><span id="score">0</span> / 38 баллов</strong></div>
+<section class="section" id="s1"><h2>1. Проверь, что ты запомнил</h2><p class="sub">15 вопросов · 1 балл за каждый правильный ответ</p><div id="facts"></div></section>
+<section class="section" id="s2"><h2>2. Верно или неверно?</h2><p class="sub">10 утверждений · 1 балл за каждый правильный ответ</p><div id="truths"></div></section>
+<section class="section" id="s3"><h2>3. Восстанови последовательность событий</h2><p class="sub">Поставь номера от 1 до 8. За каждое событие на правильном месте — 1 балл. После заполнения нажми «Проверить последовательность».</p><div id="events"></div><button class="btn" id="checkOrder">Проверить последовательность</button><div class="feedback" id="orderFeedback" aria-live="polite"></div></section>
+<section class="section" id="s4"><h2>4. Подумай о героях</h2><p class="sub">5 вопросов · 1 балл за каждый правильный ответ</p><div id="motives"></div></section>
+<section class="result score-page main-result" id="mainResult"><div class="medal" aria-hidden="true">🏅</div><div class="score-caption">Первый этап пройден</div><h2>Твой результат основной части</h2><div class="big"><span id="mainScore">0</span> <span style="font-size:25px;color:#8b806c">/ 38</span></div><div class="score-track"><div class="score-fill" id="mainFill"></div></div><p id="mainMessage">Ответь на все вопросы и проверь последовательность событий, чтобы увидеть итог.</p></section>
+<section class="section super" id="superLevel"><span class="pill">Бонусный этап</span><h2>🌟 Суперзадание: расскажи историю!</h2><p>Ты выполнил основную часть викторины. Теперь можно заработать ещё <b>до 12 баллов</b> за устный пересказ рассказа «Сверху вниз, наискосок!».</p><p>Рассмотри опорные карточки и перескажи историю самостоятельно. Постарайся не пропустить важные события и объяснить, почему ребята увлеклись покраской и к чему привели их действия.</p><div class="cards">
+<div class="cue"><b>1. Летний двор</b>Ремонт, куча песка, игры и помощь рабочим</div><div class="cue"><b>2. Новая бригада</b>Санька, Раечка, Нелли, песня «Ландыши»</div><div class="cue"><b>3. Обеденный перерыв</b>11:55, бочонок с краской и шланг</div><div class="cue"><b>4. Первые брызги</b>Мишка качает насос, Денис красит стену</div><div class="cue"><b>5. Алёнка-индейка</b>Ноги, руки, спина, волосы и уши</div><div class="cue"><b>6. Бельё и дверь</b>Два полотенца, рубашка Мишки, парадная дверь</div><div class="cue"><b>7. Управдом</b>Алексей Акимыч в белом костюме, испуг Дениса</div><div class="cue"><b>8. Последствия</b>Стирка, отмывание Алёнки и обещание взять Дениса в бригаду</div>
+</div><hr style="border:0;border-top:1px solid #e8d59c;margin:18px 0"><h3>Оценка пересказа — выставляет логопед</h3><p class="small">Внеси баллы после того, как ребёнок закончит пересказ. Это бонус, он не входит в автоматическую оценку.</p><div class="bonusrow"><label for="bonus">Бонусные баллы (0–12):</label><input id="bonus" type="number" min="0" max="12" step="1" value="0"><button class="btn" id="applyBonus">Добавить бонус</button></div><div class="feedback" id="bonusFeedback" aria-live="polite">Сейчас добавлено: 0 баллов.</div></section>
+<section class="result score-page final-result"><div class="medal" aria-hidden="true">🏆</div><div class="score-caption">Финиш викторины</div><h2>Твой большой итог!</h2><div class="big"><span id="totalScore">0</span> <span style="font-size:25px;color:#8b806c">/ 50</span></div><div class="score-track"><div class="score-fill" id="totalFill"></div></div><p id="totalMessage">Основная часть: 0 из 38. Бонус за пересказ: 0 из 12.</p><p style="font-weight:700;color:#92723b">Каждый правильный ответ — твоя маленькая победа! ✨</p></section>
+<div class="footer">Викторина по рассказу В. Драгунского «Сверху вниз, наискосок!»</div>
+</main>
+<script>
+const factQs=[
+['В какое время происходили события рассказа?',['Зимой, когда Денис уже учился в школе','Летом, когда Денис ещё не ходил в школу','Осенью, после начала учебного года','Весной, перед школьными каникулами'],1,'Денис вспоминает лето, когда он ещё не ходил в школу.'],
+['Что находилось посреди двора во время ремонта?',['Большая куча песка','Гора кирпичей','Старая деревянная лестница','Тележка с инструментами'],0,'Посреди двора высилась огромная куча песка.'],
+['Как дети помогали рабочим до прихода маляров?',['Носили им обеды','Красили стены','Денис принёс дяде Грише чайник кипятка, а Алёнка показала чёрный ход','Убирали весь двор'],2,'Денис принёс слесарю дяде Грише полный чайник кипятку, а Алёнка показала монтёрам чёрный ход.'],
+['Сколько девушек пришло во двор вместо дяди Гриши?',['Две','Четыре','Пять','Три'],3,'Во двор пришли три девушки-маляра.'],
+['Как звали девушек из малярной бригады?',['Санька, Раечка и Нелли','Алёна, Таня и Катя','Раиса, Нина и Люба','Света, Лена и Зоя'],0,'Денис знал по именам всю бригаду: Санька, Раечка и Нелли.'],
+['Какую песню часто пели девушки-маляры?',['«Катюша»','«Ландыши, ландыши»','«Во поле берёза стояла»','«Подмосковные вечера»'],1,'Девушки часто пели песню «Ландыши, ландыши».'],
+['Который час сообщил Денис тёте Сане?',['Половина двенадцатого','Ровно двенадцать','Без пяти двенадцать','Без десяти двенадцать'],2,'Денис сказал: «Без пяти двенадцать».'],
+['Что маляры оставили во дворе, уходя обедать?',['Только лестницу','Ведро с водой и кисти','Краску в закрытой комнате','Бочонок с краской и резиновый шланг'],3,'Девушки ушли обедать, оставив бочонок с краской и резиновый шланг.'],
+['Кто предложил проверить, пойдёт ли краска из шланга?',['Мишка','Алёнка','Денис','Тётя Саня'],0,'Мишка задумался, пойдёт ли краска, если он покачает насос.'],
+['Что увидели дети на стене после первых брызг краски?',['Большой ровный круг','Светло-коричневое пятно, похожее на паука','Красную полосу','Рисунок в виде цветка'],1,'На стене сразу появилось светло-коричневое пятно, похожее на паука.'],
+['Как Алёнка сначала предложила себя покрасить?',['Только руки','Только спину','Подставила ногу под краску','Попросила покрасить волосы'],2,'Алёнка подставила ногу под краску, и Денис покрасил её от колена до пальцев.'],
+['Что Мишка предложил покрасить после Алёнки?',['Забор','Песочную кучу','Окна дома','Бельё, которое сушилось на верёвке'],3,'Мишка обратил внимание Дениса на сушившееся бельё.'],
+['В чём был управдом, когда вышел из двери?',['В белом костюме','В синей рабочей одежде','В сером пальто','В коричневой куртке'],0,'Из двери вышел управдом Алексей Акимыч в белом костюме.'],
+['Почему Денис продолжал поливать управдома краской?',['Он хотел закончить рисунок','Он испугался и растерялся, не догадавшись отвести шланг','Мишка приказал ему не останавливаться','Он не заметил управдома'],1,'Денис остолбенел от испуга и не сообразил отвести шланг в сторону.'],
+['Что пообещали Денису девушки-маляры в конце рассказа?',['Подарить ему насос','Позвать его на обед','Когда он вырастет, взять его в бригаду маляром','Научить его петь «Ландыши»'],2,'Тётя Саня, Раечка и Нелли сказали, что возьмут Дениса в бригаду, когда он подрастёт.']
+];
+const trueQs=[
+['Во дворе Дениса летом шёл ремонт.',true,'Рассказ начинается с воспоминания о летнем ремонте во дворе.'],
+['Дети играли на большой куче песка.',true,'На песке они играли в разные игры и делали куличики.'],
+['В малярной бригаде было пять девушек.',false,'В бригаде было три девушки: Санька, Раечка и Нелли.'],
+['Девушки-маляры часто пели песню «Ландыши, ландыши».',true,'Денис рассказывает, что девушки любили петь эту песню.'],
+['Денис сообщил тёте Сане, что уже ровно двенадцать часов.',false,'Он сказал: «Без пяти двенадцать», то есть было 11 часов 55 минут.'],
+['Мишка качал насос, а Денис держал и направлял шланг.',true,'Ребята распределили работу именно так.'],
+['Алёнка попросила покрасить только одну ногу.',false,'Сначала она подставила одну ногу, затем вторую, а потом попросила покрасить её с головы до пят.'],
+['Денис покрасил два полотенца и Мишкину рубашку.',true,'Он быстро покрасил бельё, которое сушилось на верёвке.'],
+['Управдом вышел во двор в коричневом костюме.',false,'На нём был белый костюм, который Денис испачкал краской.'],
+['Мишка две недели стирал бельё, а Алёнку долго отмывали.',true,'В конце рассказа сказано, что Мишка две недели стирал бельё, а Алёнку мыли в семи водах со скипидаром.']
+];
+const motiveQs=[
+['Почему дети так заинтересовались насосом и шлангом?',['Им захотелось самим попробовать, как работает малярное оборудование','Девушки приказали им закончить покраску','Они хотели спрятать инструменты','Им нужно было срочно починить стену'],0,'Мишке стало интересно, пойдёт ли краска, если покачать насос, а Денису захотелось попробовать покрасить.'],
+['Почему Алёнка с радостью подставляла ноги под краску?',['Она хотела испачкать обувь','Ей понравилось, что ноги стали гладкими и блестящими, и она увлеклась игрой','Она собиралась стать управдомом','Она хотела уйти домой пораньше'],1,'Алёнка увидела, что нога стала гладкой и блестящей, и захотела покраситься целиком.'],
+['Почему Мишка всё время подбадривал Дениса и предлагал новые предметы для покраски?',['Он боялся, что краска закончится','Он хотел позвать маляров обратно','Он увлёкся происходящим и хотел продолжать забаву','Он собирался сам покрасить только стену'],2,'Мишка вошёл в азарт: ему нравилось, что краска идёт и можно покрасить ещё что-нибудь.'],
+['Почему Денис не остановился, когда из двери вышел управдом?',['Он решил, что это один из маляров','Он не услышал, как его позвали','Он хотел специально испачкать костюм','Он так испугался, что растерялся и не смог сразу сообразить, что делать'],3,'Денис пишет, что они оба с управдомом остолбенели, а он от испуга продолжал размахивать шлангом.'],
+['Почему в конце рассказа Денис старается быстрее расти?',['Он запомнил обещание девушек взять его в малярную бригаду','Он хотел скорее пойти в школу','Он хотел стать управдомом','Он надеялся больше не видеть двор'],0,'Девушки сказали, что возьмут его в бригаду, когда он вырастет, и Денису понравилась эта перспектива.']
+];
+let score=0,answered=new Set(),orderChecked=false,bonus=0;
+function shuffledPositions(count){
+  // Равномерный набор позиций, который перемешивается без циклического шаблона А-Б-В-Г.
+  const base=Array.from({length:count},(_,i)=>i%4);
+  const isCyclicRun=(arr)=>{
+    for(let i=0;i<=arr.length-4;i++){
+      const a=arr.slice(i,i+4);
+      if([0,1,2,3].some(start=>a.every((v,j)=>v===(start+j)%4))) return true;
+    }
+    return false;
+  };
+  let positions;
+  do{
+    positions=[...base];
+    for(let i=positions.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [positions[i],positions[j]]=[positions[j],positions[i]];
+    }
+  }while(isCyclicRun(positions));
+  return positions;
+}
+function renderChoice(target,arr,prefix,truth=false){
+  const root=document.getElementById(target);
+  const positions=truth?[]:shuffledPositions(arr.length);
+  arr.forEach((item,i)=>{
+    const [q,opts,key,why]=item;
+    const id=prefix+i;
+    const box=document.createElement('div');
+    box.className='q'+(truth?' tf':'');
+    box.innerHTML=`<h3>${i+1}. ${q}</h3><div class="opts"></div><div class="feedback" id="fb-${id}" aria-live="polite"></div>`;
+    const op=box.querySelector('.opts');
+    if(!truth){
+      const correctEntry={label:opts[key],index:key};
+      const others=opts.map((label,index)=>({label,index})).filter(x=>x.index!==key);
+      for(let j=others.length-1;j>0;j--){
+        const k=Math.floor(Math.random()*(j+1));
+        [others[j],others[k]]=[others[k],others[j]];
+      }
+      const correctPosition=positions[i];
+      const choices=[...others];
+      choices.splice(correctPosition,0,correctEntry);
+      choices.forEach((entry,j)=>{
+        const b=document.createElement('button');
+        b.className='opt';b.type='button';
+        b.textContent=['А','Б','В','Г'][j]+'. '+entry.label;
+        b.addEventListener('click',()=>choose(id,b,j,correctPosition,why,op));
+        op.appendChild(b);
+      });
+    }else{
+      const correctPosition=key?0:1;
+      ['Верно','Неверно'].forEach((label,j)=>{
+        const b=document.createElement('button');
+        b.className='opt';b.type='button';b.textContent=label;
+        b.addEventListener('click',()=>choose(id,b,j,correctPosition,why,op));
+        op.appendChild(b);
+      });
+    }
+    root.appendChild(box);
+  });
+}
+function choose(id,btn,choice,key,why,container){if(answered.has(id))return;answered.add(id);const correct=choice===key;if(correct)score++;[...container.children].forEach((b,j)=>{b.disabled=true;if(j===key)b.classList.add('correct');if(j===choice&&!correct)b.classList.add('wrong')});const fb=document.getElementById('fb-'+id);fb.textContent=(correct?'Верно! ':'Пока неверно. ')+why;fb.className='feedback '+(correct?'good':'bad');update()}
+function update(){document.getElementById('score').textContent=score;document.getElementById('mainScore').textContent=score;document.getElementById('mainFill').style.width=(score/38*100)+'%';document.getElementById('mainMessage').textContent=answered.size===30+(orderChecked?8:0)?'Все задания основной части выполнены. Можно переходить к суперзаданию!':`Выполнено закрытых заданий: ${answered.size} из 30. Последовательность проверена: ${orderChecked?'да':'нет'}.`;document.getElementById('totalScore').textContent=score+bonus;document.getElementById('totalFill').style.width=((score+bonus)/50*100)+'%';document.getElementById('totalMessage').textContent=`Основная часть: ${score} из 38. Бонус за пересказ: ${bonus} из 12.`}
+renderChoice('facts',factQs,'f');renderChoice('truths',trueQs.map(x=>[x[0],null,x[1],x[2]]),'t',true);renderChoice('motives',motiveQs,'m');
+const sequence=['Денис и его друзья знакомятся с девушками-малярами, которые приходят во двор.','Девушки уходят обедать, оставив бочонок с краской и шланг.','Мишка качает насос, и из шланга начинает идти краска.','Денис красит Алёнку с головы до пят.','Денис красит два полотенца и Мишкину рубашку.','Ребята начинают красить дверь парадного входа.','Из двери выходит управдом Алексей Акимыч в белом костюме, и Денис его обливает.','После происшествия Мишка стирает бельё, Алёнку отмывают, а девушки обещают взять Дениса в бригаду.'];
+const shuffled=[5,2,7,0,4,1,6,3];const ev=document.getElementById('events');shuffled.forEach((n,i)=>{const row=document.createElement('div');row.className='event';row.dataset.correct=n+1;row.innerHTML=`<input type="number" min="1" max="8" placeholder="★" aria-label="Номер события"><div>${sequence[n]}</div>`;ev.appendChild(row)});
+document.getElementById('checkOrder').addEventListener('click',()=>{if(orderChecked)return;const rows=[...ev.querySelectorAll('.event')];let earned=0,filled=true;rows.forEach(r=>{const input=r.querySelector('input');const val=Number(input.value);if(!input.value)filled=false;if(val===Number(r.dataset.correct)){earned++;r.classList.add('correct-row')}else r.classList.add('wrong-row');input.disabled=true});if(!filled){rows.forEach(r=>{r.querySelector('input').disabled=false;r.classList.remove('wrong-row','correct-row')});document.getElementById('orderFeedback').textContent='Заполни все восемь полей, затем проверь ещё раз.';return}score+=earned;orderChecked=true;document.getElementById('checkOrder').disabled=true;document.getElementById('orderFeedback').textContent=`Правильно расположено событий: ${earned} из 8. Ты получил(а) ${earned} баллов.`;update()});
+document.getElementById('applyBonus').addEventListener('click',()=>{const input=document.getElementById('bonus');let n=Number(input.value);if(!Number.isInteger(n)||n<0||n>12){document.getElementById('bonusFeedback').textContent='Введи целое число от 0 до 12.';return}bonus=n;document.getElementById('bonusFeedback').textContent=`Добавлено ${bonus} бонусных баллов за пересказ.`;update()});update();
+</script></body></html>
